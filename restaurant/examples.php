@@ -1,15 +1,40 @@
-<?php
-$isRed = true;
+<html>
+  <body>
+    <pre>
+      <?php
+        $categories = ['Programming', 'Business', 'Art & Drawing', 'Self Improvement', 'History'];
+        $randoms = ['JavaScript' => 'Jonas Schmedtman'
+        , 'Food store' => 'Coop'
+        , "Mona Lisa" => 'Davinci Leonardo'
+        , "David Goggins" => "Osårbar"
+        , "Second World War" => "Germany"
+      ];
+      // var_dump($business['JavaScript']);
+      // var_dump(isset($business['JavaScript']));
+      // var_dump(!empty($business['JavaScript']));
+     // Hämta arrayer
+ 
 
-?>
+     $speakers = [
+      'Dr. Miller' => 'Artificial Intelligence',
+      'Prof. Johnson' => 'Robotics',
+      'Dr. Smith' => 'Quantum Computing',
+      'Dr. Brown' => 'Cybersecurity'
+  ];
 
-<?php if (!empty($isRed)): ?>
+  unset($speakers['Prof. Johnson']);
+if (count($speakers) < 3) {
+    $speakers['Prof. Taylor'] = 'Blockchain';
+}
+$topics = array_values($speakers);
 
-<h1 style="color: red;">PHP is Amazing</h1>
-
-<?php else: ?>
-  <h1>PHP is Amazing</h1>
-<?php endif; ?>
-
-
-<h1 <?php if (!empty($isRed)): ?> style="color: red;" <?php endif; ?>>PHP is Amazing </h1>
+var_dump($topics)
+      ?>
+    </pre>
+    <ul>
+      <?php foreach ($randoms AS $key => $val): ?> 
+              <li><?php echo $key; ?> - <?php echo $val; ?></li>  
+        <?php endforeach; ?>
+    </ul>
+  </body>
+</html>
