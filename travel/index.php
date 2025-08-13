@@ -12,22 +12,53 @@
         $handle = opendir(__DIR__ . '/images');
   
         $images = [];
+        
+        $allowedExtensions = ['jpg', 'jpeg', 'png,'];
+
         while (($currentFile = readdir($handle)) !== false) {
             if ($currentFile === '.' || $currentFile === '..' || $currentFile === '.DS_Store') {
                 continue;
             }
             
-            // Lägg bara till .jpg filer
-            if (pathinfo($currentFile, PATHINFO_EXTENSION) === 'jpg') {
-                $images[] = $currentFile;
+        $exstensions = pathinfo($currentFile, PATHINFO_EXTENSION); 
+            if (!in_array($exstensions, $allowedExtensions)) {
+            continue;
             }
+
+        $title = '';
+        $content = '';
+        
+        $fileWithoutExt = pathinfo($currentFile, PATHINFO_FILENAME);
+        $txtFile = __DIR__ . '/images/' . $fileWithoutExt . '.txt';
+
+            if(file_exists($txtFile)) {
+            $txt = file_get_contents($txtFile);
+            $info = explode("\n", $txt);
+            $title = $info[0];
+            unset($info[0]);
+            $content = array_values($info);
         }
-        var_dump($images);
+
+            $images[] = [  
+                'image' => $currentFile, 
+                'title' => $title,
+                'content' => $content
+            ];
+    }
+         var_dump($images);
         closedir($handle);
     ?></pre>
     
     <?php foreach($images AS $image): ?>
-        <img src="/images/<?php echo rawurlencode($image); ?>" alt="">
+        <figure>
+            <h2><?php echo $image['title']; ?></h2>
+            <img src="/images/<?php echo rawurlencode($image['image']); ?>" alt="">
+            <figcaption>
+                <?php foreach($image['content'] AS $content): ?>
+                <p><?php echo $content; ?></p>
+                <?php endforeach; ?>
+            </figcaption>
+        </figure>
     <?php endforeach; ?>
 </main>
 </body>
